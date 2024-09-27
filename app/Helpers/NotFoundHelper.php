@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use Illuminate\Support\Collection;
 
-
 class NotFoundHelper {
     public static function notFoundData($model){
 
