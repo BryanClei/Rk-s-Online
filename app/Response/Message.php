@@ -11,7 +11,11 @@ class Message {
 
     const REGISTERED_SUCCESS = "Account Created Successfully.";
     const SAVED_RESPONSE = "Data saved successfully.";
+    const LOGIN_SUCCESS = "Login successfully.";
+    const LOGOUT_USER = "Logout successfully.";
 
     // Display
     const DATA_DISPLAY = "Data display succesfully.";
+
+    const INVALID_CREDENTIALS = 'The Email or password is incorrect.';
 }

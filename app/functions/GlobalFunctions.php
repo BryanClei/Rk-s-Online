@@ -25,5 +25,15 @@ class GlobalFunctions {
             Message::SUCESS_STATUS
         );
     }
+
+    public static function login($message, $user){
+        return response()->json(
+            [
+                "message" => $message,
+                "result" => $user
+            ],
+            Message::SUCESS_STATUS
+        );
+    }
     
 }
