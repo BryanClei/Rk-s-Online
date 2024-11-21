@@ -35,6 +35,7 @@ class User extends Authenticatable
         "postal_code",
         "role_id",
         "user_type",
+        "online_status"
     ];
 
     /**

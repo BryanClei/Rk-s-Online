@@ -24,72 +24,52 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "first_name" => [
-                "required",
-            ],
-            "last_name" => [
-                "required"
-            ],
-            "email_address" => [
-                "required","unique:users,email,NULL,deleted_at"
-            ],
-            "password" => [
-                "required", Password::min(8)->mixedCase()->numbers()
-            ],
-            "mobile_number" => [
-                'required', 
-                new PhoneNumber(request('country'))
-            ],
-            "birthday" => [
-                "required", "date"
-            ],
-            "gender" => [
-                "required"
-            ],
-            "address" => [
-                "required"
-            ],
-            "house_apartment_no" => [
-                "required"
-            ],
-            "city" => [
-                "required"
-            ],
-            "province" => [
-                "required"
-            ],
-            "country" => [
-                "required"
-            ],
-            "postal_code" => [
-                "required"
-            ]
+            "first_name" => "required",
+            "last_name" => "required",
+            "email_address" => "required|unique:users,email,NULL,deleted_at",
+            "password" => "required|".Password::min(8)->mixedCase()->numbers(),
+            "mobile_number" => "required|".new PhoneNumber(request('country')),
+            "birthday" => "required|date",
+            "gender" => "required",
+            "address" => "required",
+            "house_apartment_no" => "required",
+            "city" => "required",
+            "province" => "required",
+            "country" => "required",
+            "postal_code" => "required",
         ];
     }
-
+    
+    public function attributes(): array
+    {
+        return [
+            "first_name" => "First name",
+            "last_name" => "Last name",
+            "email_address" => "Email",
+            "password" => "Password",
+            "mobile_number" => "Mobile number",
+            "birthday" => "Birthday",
+            "gender" => "Gender",
+            "address" => "Address",
+            "house_apartment_no" => "House/Apartment No.",
+            "city" => "City",
+            "province" => "Province",
+            "country" => "Country",
+            "postal_code" => "Postal Code",
+        ];
+    }
+    
     public function messages(): array {
         return [
-            "first_name.required" => "First name is required.",
-            "last_name.required" => "Last name is required.",
-            "email_address.required" => "Email is required.",
-            "email_address.unique" => "Email is already taken.",
-            "password.required" => "Password is required.",
-            "password.min" => "Password must be 8 characters.",
-            "password.mixed" => "Password must contain at least one uppercase and one lowercase letter." ,
-            "password.numbers" => "Password must have atleaset one number.",
-            "mobile_number.required" => "Mobile number is required.",
-            "mobile_number.regex" => "Mobile number is invalid, it must start's with +639 or 9**.",
-            "birthday.required" => "Birthday is required.",
-            "gender.required" => "Gender is required.",
-            "address.required" => "Address is required.",
-            "house_apartment_no.required" => "House/Apartment No. is required.",
-            "city.required" => "City is required.",
-            "province.required" => "Province is required.",
-            "country.required" => "Country is required.",
-            "postal_code.required" => "Postal Code is required."
+            "required" => "The :attribute is required.",
+            "unique" => "The :attribute is already taken.",
+            "min" => "The :attribute must be at least 8 characters.",
+            "mixed" => "The :attribute must contain at least one uppercase and one lowercase letter.",
+            "numbers" => "The :attribute must have at least one number.",
+            "date" => "The :attribute must be a valid date.",
         ];
     }
-
+    
     public function withValidator($validator){
         $validator->after(function ($validator){
             if ($this->password !== $this->confirm_password){

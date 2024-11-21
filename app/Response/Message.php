@@ -17,5 +17,5 @@ class Message {
     // Display
     const DATA_DISPLAY = "Data display succesfully.";
 
-    const INVALID_CREDENTIALS = 'The Email or password is incorrect.';
+    const INVALID_CREDENTIALS = 'The email or password is incorrect.';
 }

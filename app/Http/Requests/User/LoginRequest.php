@@ -22,19 +22,23 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email" => [
-                "required", "exists:users,email"
-            ],"password" => [
-                "required"
-            ]
+            "email" => "required|exists:users,email",
+            "password" => "required",
         ];
     }
-
+    
+    public function attributes(): array
+    {
+        return [
+            "email" => "email",
+            "password" => "password",
+        ];
+    }
+    
     public function messages(): array {
         return [
-            "email.required" => "Username is required",
-            "email.exists" => "The Email or password is incorrect.",
-            "password.required" => "Password is required."
+            "required" => "The :attribute is required.",
+            "exists" => "The :attribute or password is incorrect.",
         ];
     }
 }

@@ -9,7 +9,7 @@ use App\Http\Controllers\Api\UserController;
 // })->middleware('auth:sanctum');
 
 Route::group(["middleware" => ["auth:sanctum"]], function () {
-    Route::patch("users/change_password/{id}", [UserController::class, "change_password"]);
+    Route::patch("users/change_password", [UserController::class, "change_password"]);
     Route::post("logout", [UserController::class, "logout"]);
     Route::apiResource("users", UserController::class);
 });

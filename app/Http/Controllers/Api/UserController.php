@@ -9,6 +9,7 @@ use App\Helpers\NotFoundHelper;
 use App\Functions\GlobalFunctions;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\StoreRequest;
@@ -80,9 +81,14 @@ class UserController extends Controller
             }
         }
 
+        $user->update([
+            "online_status" => 1,
+        ]);
+
         $token = $user->createToken('PersonalAccessToken')->plainTextToken;
-        // $user["token"] = $token;
+        $user["token"] = $token;
         $cookie = cookie('rk-shop', $token);
+
 
         return GlobalFunctions::login(Message::LOGIN_SUCCESS, $user)->withCookie($cookie);
 
@@ -93,17 +99,16 @@ class UserController extends Controller
         // return $response->withCookie(cookie('rk-shop', $token, 60 * 24 * 30));
     }
 
-    public function change_password(ChangePasswordRequest $request, $id){
-        return "me";
+    public function change_password(ChangePasswordRequest $request){
+       Auth::user();
     }
 
     public function logout(Request $request)
     {
-        Auth()
-            ->user()
-            ->currentAccessToken()
-            ->delete();
-        return GlobalFunctions::display(Message::LOGOUT_USER);
+        $user = Auth::user();
+        $user->update(['online_status' => 0]);
+        $user->currentAccessToken()->delete();
+        return GlobalFunctions::display(Message::LOGOUT_USER, $user->online_status);
     }
 
 }
