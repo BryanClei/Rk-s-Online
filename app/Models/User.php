@@ -3,7 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Filters\UserFilters;
 use Laravel\Sanctum\HasApiTokens;
+use Essa\APIToolKit\Filters\Filterable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +13,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Filterable;
+
+    protected string $default_filters = UserFilters::class;
 
     /**
      * The attributes that are mass assignable.
@@ -19,14 +23,14 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'first_name',
-        'middle_name',
-        'last_name',
-        'email',
-        'password',
+        "first_name",
+        "middle_name",
+        "last_name",
+        "email",
+        "password",
         "mobile_number",
-        'birthday',
-        'gender',
+        "birthday",
+        "gender",
         "address",
         "house_apartment_no",
         "city",
@@ -35,7 +39,7 @@ class User extends Authenticatable
         "postal_code",
         "role_id",
         "user_type",
-        "online_status"
+        "online_status",
     ];
 
     /**
@@ -43,10 +47,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = ["password", "remember_token"];
 
     /**
      * Get the attributes that should be cast.
@@ -56,12 +57,13 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
+            "email_verified_at" => "datetime",
+            "password" => "hashed",
         ];
     }
 
-    public function role(){
+    public function role()
+    {
         return $this->belongsTo(Role::class, "role_id", "id");
     }
 }

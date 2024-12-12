@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +22,16 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            "email" => "required|exists:users,email",
-            "password" => "required",
+            "name" => ["required"],
+            "access_permission" => ["nullable"],
         ];
     }
 
     public function attributes(): array
     {
         return [
-            "email" => "email",
-            "password" => "password",
+            "name" => "role name",
+            "access_permission" => "access permission",
         ];
     }
 
@@ -39,7 +39,6 @@ class LoginRequest extends FormRequest
     {
         return [
             "required" => "The :attribute is required.",
-            "exists" => "The :attribute or password is incorrect.",
         ];
     }
 }

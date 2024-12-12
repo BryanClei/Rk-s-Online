@@ -10,10 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create("roles", function (Blueprint $table) {
+        Schema::create("categories", function (Blueprint $table) {
             $table->increments("id");
             $table->string("name");
-            $table->longText("access_permission")->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
@@ -24,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists("roles");
+        Schema::dropIfExists("categories");
     }
 };
