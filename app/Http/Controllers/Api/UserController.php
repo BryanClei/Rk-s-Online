@@ -119,9 +119,11 @@ class UserController extends Controller
         $user = Auth::user();
         $user->update(["online_status" => 0]);
         $user->currentAccessToken()->delete();
+
+        ($user->online_status === 0) ? $status = "Offline" : $status = "online status not updated";
         return GlobalFunctions::display(
             Message::LOGOUT_USER,
-            $user->online_status
+            $status
         );
     }
 }
