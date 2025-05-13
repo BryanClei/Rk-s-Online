@@ -12,12 +12,12 @@ class Authenticate extends Middleware
 {
     protected function redirectTo(Request $request): ?string
     {
-        return $request->expectsJson() ? null : route('login');
+        return $request->expectsJson() ? null : route("login");
     }
 
-    public function handle($request, Closure $next, ...$guards){
-
-        if($sanctum = $request->cookie("rk-shop")){
+    public function handle($request, Closure $next, ...$guards)
+    {
+        if ($sanctum = $request->cookie("rk-shop")) {
             $request->headers->set("Authorization", "Bearer " . $sanctum);
         }
 

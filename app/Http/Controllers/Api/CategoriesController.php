@@ -9,6 +9,7 @@ use App\Helpers\NotFoundHelper;
 use App\Functions\GlobalFunctions;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoriesResource;
+use App\Http\Requests\StatusDisplayRequest;
 use App\Services\Category\CategoryServices;
 use App\Http\Requests\Categories\StoreRequest;
 
@@ -20,9 +21,15 @@ class CategoriesController extends Controller
     {
         $this->categoryServices = $categoryServices;
     }
-    public function index()
+
+    public function index(StatusDisplayRequest $request)
     {
-        $model = Categories::useFilters()->dynamicPaginate();
+        $status = $request->input("status");
+        $model = Categories::when($status == "inactive", function ($query) {
+            $query->onlyTrashed();
+        })
+            ->useFilters()
+            ->dynamicPaginate();
 
         $response = NotFoundHelper::notFoundData($model);
 

@@ -18,10 +18,13 @@ class PhoneNumber implements Rule
     public function passes($attribute, $value)
     {
         $phoneUtil = PhoneNumberUtil::getInstance();
-        
+
         try {
             $phoneNumber = $phoneUtil->parse($value, $this->countryCode);
-            if ($phoneUtil->getRegionCodeForNumber($phoneNumber) !== $this->countryCode) {
+            if (
+                $phoneUtil->getRegionCodeForNumber($phoneNumber) !==
+                $this->countryCode
+            ) {
                 return false;
             }
             return $phoneUtil->isValidNumber($phoneNumber);
@@ -32,6 +35,6 @@ class PhoneNumber implements Rule
 
     public function message()
     {
-        return 'The :attribute must be a valid phone number for the selected country.';
+        return "The :attribute must be a valid phone number for the selected country.";
     }
 }
