@@ -20,6 +20,7 @@ class RoleController extends Controller
     {
         $this->roleService = $roleService;
     }
+
     public function index()
     {
         $model = Role::useFilters()->dynamicPaginate();

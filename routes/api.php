@@ -4,12 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CategoriesController;
 
 // Route::get('/user', function (Request $request) {
 //     return $request->user();
 // })->middleware('auth:sanctum');
-
+Route::apiResource("users", UserController::class);
+Route::apiResource("products", ProductController::class);
 Route::group(["middleware" => ["auth:sanctum"]], function () {
     //Change password
     Route::patch("users/change_password/{id}", [
@@ -21,7 +23,6 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::post("logout", [UserController::class, "logout"]);
 
     //User Controller
-    Route::apiResource("users", UserController::class);
 
     //Role Controller
     Route::apiResource("roles", RoleController::class);
@@ -34,7 +35,6 @@ Route::group(["middleware" => ["auth:sanctum"]], function () {
     Route::apiResource("categories", CategoriesController::class);
 
     //Products Controller
-    Route::apiResource("products", ProductController::class);
 });
 
 Route::post("login", [UserController::class, "login"]);
